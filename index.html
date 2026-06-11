@@ -1,354 +1,223 @@
 <!DOCTYPE html>
-
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Hanuman Group</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css">
+    <title>Homepage</title>
+    <style>
+        body {
+            background-image: linear-gradient(#000000, #ff9933);
+            min-height: 100vh;
+            color: white;
+            overflow: hidden; 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
 
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+        /* Main Wrapper: Perfectly centered and takes full width */
+        .main-wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100vw;
+            height: 100vh;
+            opacity: 0; 
+            transition: opacity 1.2s ease-in-out;
+        }
 
-<style>
+        .show-wrapper {
+            opacity: 1 !important;
+        }
 
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-}
+        /* Three Equal Columns */
+        .col-section {
+            flex: 1; /* Each takes exactly 33.33% of the page */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            position: relative;
+        }
 
-body{
-    font-family:'Poppins',sans-serif;
-    background:#fffaf5;
-    overflow:hidden;
-    color:#222;
-}
+        /* Left Column alignment */
+        .links-container {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+            text-align: right;
+            padding-right: 40px; /* Gap between links and first ruler */
+        }
 
-/* MAIN LAYOUT */
+        /* Middle Column alignment */
+        .summary-container {
+            text-align: center;
+            padding: 0 60px;
+        }
 
-.container{
-    width:100%;
-    height:100vh;
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    padding:0 8%;
-}
+        /* Right Column alignment */
+        .image-placeholder {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
 
-/* LEFT SIDE */
+        /* Orange Vertical Rules */
+        .vertical-rule {
+            width: 4px;
+            background-color: #FF9933;
+            height: 70vh;
+            box-shadow: 0 0 20px rgba(255, 153, 51, 0.8);
+            flex-shrink: 0; /* Prevents rules from squishing */
+        }
 
-.left{
-    width:45%;
-    opacity:0;
-    transform:translateY(40px);
-    transition:1s ease;
-}
+        /* Link Styling */
+        .nav-link-custom {
+            color: white;
+            font-size: 24px;
+            text-decoration: none;
+            transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            cursor: pointer;
+            font-weight: 500;
+            display: inline-block;
+        }
 
-.left.show{
-    opacity:1;
-    transform:translateY(0);
-}
+        .nav-link-custom:hover {
+            color: #FF9933;
+            transform: translateX(15px);
+        }
 
-.tag{
-    color:#ff6b00;
-    font-weight:600;
-    letter-spacing:3px;
-    margin-bottom:20px;
-}
+        #summaryText {
+            font-size: 24px;
+            font-style: italic;
+            line-height: 1.6;
+            transition: 0.4s ease;
+            min-height: 120px;
+        }
 
-h1{
-    font-size:72px;
-    line-height:1;
-    margin-bottom:20px;
-}
+        .fade-out {
+            opacity: 0;
+            transform: translateY(10px);
+        }
 
-.description{
-    font-size:18px;
-    line-height:1.8;
-    color:#666;
-    min-height:120px;
-    transition:.4s;
-}
+        /* --- CINEMATIC IMAGE ANIMATION --- */
+        .animated-image {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            /* Start: Exactly center of screen */
+            transform: translate(-50%, -50%); 
+            opacity: 0; 
+            transition: 
+                opacity 1.5s ease, 
+                transform 2s cubic-bezier(0.65, 0, 0.35, 1); 
+            z-index: 100;
+            pointer-events: none;
+        }
 
-.menu{
-    margin-top:40px;
-    display:flex;
-    flex-direction:column;
-    gap:15px;
-}
+        .fade-in {
+            opacity: 1 !important; 
+        }
 
-.menu-item{
-    width:fit-content;
-    font-size:20px;
-    cursor:pointer;
-    transition:.3s;
-    position:relative;
-}
-
-.menu-item:hover{
-    color:#ff6b00;
-    transform:translateX(10px);
-}
-
-.menu-item::after{
-    content:'';
-    position:absolute;
-    left:0;
-    bottom:-4px;
-    width:0;
-    height:2px;
-    background:#ff6b00;
-    transition:.3s;
-}
-
-.menu-item:hover::after{
-    width:100%;
-}
-
-/* DIVIDER */
-
-.divider{
-    width:2px;
-    height:0;
-    background:#ffd7ba;
-    transition:1s ease;
-}
-
-.divider.show{
-    height:70%;
-}
-
-/* RIGHT SIDE */
-
-.right{
-    width:45%;
-    position:relative;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-}
-
-.hero{
-    width:420px;
-    max-width:100%;
-    border-radius:30px;
-    box-shadow:
-        0 25px 50px rgba(0,0,0,.08),
-        0 10px 20px rgba(255,107,0,.12);
-    position:absolute;
-    bottom:-600px;
-    left:50%;
-    transform:translateX(-50%);
-}
-
-/* IMAGE ANIMATIONS */
-
-.rise{
-    animation:riseUp 1.5s ease-out forwards;
-}
-
-.move{
-    animation:moveRight 1s ease-in-out forwards;
-}
-
-@keyframes riseUp{
-    from{
-        bottom:-600px;
-        left:50%;
-        transform:translateX(-50%);
-    }
-
-    to{
-        bottom:50%;
-        left:50%;
-        transform:translate(-50%,50%);
-    }
-}
-
-@keyframes moveRight{
-    from{
-        bottom:50%;
-        left:50%;
-        transform:translate(-50%,50%);
-    }
-
-    to{
-        bottom:50%;
-        left:72%;
-        transform:translate(-50%,50%);
-    }
-}
-
-/* CONTENT CHANGE */
-
-.fade{
-    animation:fade .35s ease;
-}
-
-@keyframes fade{
-    from{
-        opacity:0;
-        transform:translateY(15px);
-    }
-    to{
-        opacity:1;
-        transform:translateY(0);
-    }
-}
-
-/* MOBILE */
-
-@media(max-width:900px){
-
-    body{
-        overflow:auto;
-    }
-
-    .container{
-        flex-direction:column;
-        justify-content:center;
-        gap:40px;
-        padding:40px 20px;
-        text-align:center;
-    }
-
-    .left,
-    .right{
-        width:100%;
-    }
-
-    h1{
-        font-size:48px;
-    }
-
-    .divider{
-        display:none;
-    }
-
-    .menu{
-        align-items:center;
-    }
-
-    .hero{
-        position:relative;
-        left:auto !important;
-        bottom:auto !important;
-        transform:none !important;
-        width:300px;
-    }
-}
-
-</style>
-
+        .move-right {
+            /* 
+               Calculation: 
+               Current position is 50%. 
+               Center of the right third is at 83.33% (50% + 33.33%).
+               So we translate by 33.33vw.
+            */
+            transform: translate(calc(-50% + 33.33vw), -50%) !important; 
+        }
+    </style>
 </head>
 <body>
 
-<div class="container">
+    <!-- Floating Image -->
+    <img src="https://ivsnetwork.github.io/Total.png?" 
+         id="heroImage" 
+         class="animated-image" 
+         alt="Centered Image" 
+         height="400px">
 
-```
-<div class="left" id="leftContent">
-
-    <div class="tag">HANUMAN GROUP</div>
-
-    <h1 id="title">
-        Excellence in Education
-    </h1>
-
-    <p class="description fade" id="desc">
-        Building future leaders through quality education,
-        innovation and technology-driven learning.
-    </p>
-
-    <div class="menu">
-
-        <div class="menu-item"
-             data-title="About Us"
-             data-desc="Hanuman Group is dedicated to empowering students through modern education, mentorship and innovation.">
-            About
+    <!-- Symmetric Page Layout -->
+    <div class="main-wrapper" id="mainWrapper">
+        
+        <!-- 1. Left Section -->
+        <div class="col-section">
+            <div class="links-container">
+                <a class="nav-link-custom" data-summary="An introductory course to understanding DSA, with references and a curriculum." href="https://ivsnetwork.github.io/DSA-1/">DSA-1</a>
+                <a class="nav-link-custom" data-summary="A complete guide to quantitative finance and stock trading. " href="https://ivsnetwork.github.io/Quant/">Quant</a>
+                <a class="nav-link-custom" data-summary="Market-defining developments in manufacturing using computer-aided systems and AI. " href="https://ivsnetwork.github.io/Manufacturing/">Manufacturing</a>
+                <a class="nav-link-custom" data-summary="Making environmentally sustainable solutions for AI and manufacturing. " href="https://ivsnetwork.github.io/Sustenance/">Sustenance</a>
+            </div>
         </div>
 
-        <div class="menu-item"
-             data-title="Courses"
-             data-desc="Explore JEE, NEET, Programming, AI, Data Science and competitive exam preparation programs.">
-            Courses
+        <!-- Ruler 1 -->
+        <div class="vertical-rule"></div>
+
+        <!-- 2. Center Section -->
+        <div class="col-section">
+            <div class="summary-container">
+                <div id="summaryText">Welcome to the homepage of Hanuman Group.</div>
+            </div>
         </div>
 
-        <div class="menu-item"
-             data-title="Projects"
-             data-desc="Students work on real-world projects including software development, AI systems and research initiatives.">
-            Projects
-        </div>
+        <!-- Ruler 2 -->
+        <div class="vertical-rule"></div>
 
-        <div class="menu-item"
-             data-title="Contact"
-             data-desc="Reach out to our team and discover how we can help you achieve your goals.">
-            Contact
+        <!-- 3. Right Section -->
+        <div class="col-section">
+            <div class="image-placeholder">
+                <!-- The animated image glides into the center of this div -->
+            </div>
         </div>
 
     </div>
 
-</div>
+    <script>
+        const img = document.getElementById("heroImage");
+        const wrapper = document.getElementById("mainWrapper");
+        const summaryText = document.getElementById("summaryText");
+        const links = document.querySelectorAll(".nav-link-custom");
 
-<div class="divider" id="divider"></div>
+        window.onload = () => {
+            // 1. Fade in at the absolute center of the page
+            img.classList.add("fade-in");
 
-<div class="right">
+            // 2. Glide to the absolute center of the right column
+            setTimeout(() => {
+                img.classList.add("move-right");
+            }, 1500);
 
-    <!-- Replace with your image -->
-    <img
-    src="Total.png"
-    class="hero"
-    id="hero">
+            // 3. Fade in the rulers and layout
+            setTimeout(() => {
+                wrapper.classList.add("show-wrapper");
+            }, 3000);
+        };
 
-</div>
-```
+        // Hover Logic
+        links.forEach(link => {
+            link.addEventListener("mouseenter", () => {
+                summaryText.classList.add("fade-out");
+                setTimeout(() => {
+                    summaryText.textContent = link.getAttribute("data-summary");
+                    summaryText.classList.remove("fade-out");
+                }, 200);
+            });
 
-</div>
-
-<script>
-
-const hero = document.getElementById("hero");
-const left = document.getElementById("leftContent");
-const divider = document.getElementById("divider");
-
-/* Step 1: image rises */
-
-hero.classList.add("rise");
-
-/* Step 2: move image right */
-
-setTimeout(()=>{
-    hero.classList.add("move");
-},1500);
-
-/* Step 3: reveal everything */
-
-setTimeout(()=>{
-    left.classList.add("show");
-    divider.classList.add("show");
-},2500);
-
-/* Hover content change */
-
-const items = document.querySelectorAll(".menu-item");
-const title = document.getElementById("title");
-const desc = document.getElementById("desc");
-
-items.forEach(item=>{
-
-    item.addEventListener("mouseenter",()=>{
-
-        title.textContent = item.dataset.title;
-
-        desc.classList.remove("fade");
-        void desc.offsetWidth;
-
-        desc.textContent = item.dataset.desc;
-        desc.classList.add("fade");
-
-    });
-
-});
-
-</script>
-
+            link.addEventListener("mouseleave", () => {
+                summaryText.classList.add("fade-out");
+                setTimeout(() => {
+                    summaryText.textContent = "Welcome to the homepage of Hanuman Group.";
+                    summaryText.classList.remove("fade-out");
+                }, 200);
+            });
+        });
+    </script>
 </body>
 </html>
