@@ -90,6 +90,7 @@
         .nav-link-custom:hover {
             color: #FF9933;
             transform: translateX(15px);
+            text-decoration: none;
         }
 
         #summaryText {
@@ -125,29 +126,74 @@
         }
 
         .move-right {
-            /* 
-               Calculation: 
+            /* Calculation: 
                Current position is 50%. 
                Center of the right third is at 83.33% (50% + 33.33%).
                So we translate by 33.33vw.
             */
             transform: translate(calc(-50% + 33.33vw), -50%) !important; 
         }
+
+        /* --- MOBILE RESPONSIVE DESIGN --- */
+        @media (max-width: 992px) {
+            body {
+                overflow-y: auto; /* Allows scrolling if content overflows on very small screens */
+            }
+
+            .main-wrapper {
+                flex-direction: column;
+                height: 100vh; /* Stacks the columns vertically */
+            }
+
+            .col-section {
+                width: 100%;
+                /* Takes 33.33% vertically instead of horizontally */
+            }
+
+            .links-container {
+                text-align: center;
+                padding-right: 0; /* Centers the links */
+            }
+
+            .nav-link-custom:hover {
+                transform: translateX(0) scale(1.1); /* Changes right-shift to a scale on mobile */
+            }
+
+            .summary-container {
+                padding: 0 20px;
+            }
+
+            #summaryText {
+                font-size: 20px;
+                min-height: 90px;
+            }
+
+            .vertical-rule {
+                width: 70vw; /* Changes vertical rule to horizontal rule */
+                height: 4px;
+            }
+
+            .animated-image {
+                height: 250px; /* Scales image down to fit smaller screens */
+            }
+
+            .move-right {
+                /* Moves to the bottom third section (vertically) instead of the right */
+                transform: translate(-50%, calc(-50% + 33.33vh)) !important; 
+            }
+        }
     </style>
 </head>
 <body>
 
-    <!-- Floating Image -->
     <img src="Total.png" 
          id="heroImage" 
          class="animated-image" 
          alt="Centered Image" 
          height="400px">
 
-    <!-- Symmetric Page Layout -->
     <div class="main-wrapper" id="mainWrapper">
         
-        <!-- 1. Left Section -->
         <div class="col-section">
             <div class="links-container">
                 <a class="nav-link-custom" data-summary="An introductory course to understanding DSA, with references and a curriculum." href="https://ivsnetwork.github.io/DSA-1/">Computing</a>
@@ -157,24 +203,19 @@
             </div>
         </div>
 
-        <!-- Ruler 1 -->
         <div class="vertical-rule"></div>
 
-        <!-- 2. Center Section -->
         <div class="col-section">
             <div class="summary-container">
                 <div id="summaryText">Welcome to the homepage of Hanuman Group.</div>
             </div>
         </div>
 
-        <!-- Ruler 2 -->
         <div class="vertical-rule"></div>
 
-        <!-- 3. Right Section -->
         <div class="col-section">
             <div class="image-placeholder">
-                <!-- The animated image glides into the center of this div -->
-            </div>
+                </div>
         </div>
 
     </div>
@@ -189,7 +230,7 @@
             // 1. Fade in at the absolute center of the page
             img.classList.add("fade-in");
 
-            // 2. Glide to the absolute center of the right column
+            // 2. Glide to the absolute center of the right column (or bottom row on mobile)
             setTimeout(() => {
                 img.classList.add("move-right");
             }, 1500);
